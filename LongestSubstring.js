@@ -34,15 +34,15 @@ var findLongestSubString = function(string) {
 				  break;	
 				}
 			} else {
-				currentLongest += string[k]
-				letters.push(string[k])	
+				currentLongest += string[k];
+				letters.push(string[k]);	
 			}
 		}
 		if (currentLongest.length > longestSub.length) {
 			longestSub = currentLongest;	
 		}
 	}
-	return longestSub;
+	return longestSub.length;
 }
 
 console.log(findLongestSubString("abcabcbb"))
