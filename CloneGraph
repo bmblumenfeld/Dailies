@@ -1,0 +1,57 @@
+function UndirectedGraphNode(label) {
+  this.label = label;
+  this.neighbors = [];
+}
+
+var cheese = new UndirectedGraphNode(0);
+cheese.neighbors.push(new UndirectedGraphNode(1));
+cheese.neighbors.push(new UndirectedGraphNode(2));
+
+cheese.neighbors[0].neighbors.push(cheese.neighbors[1]);
+cheese.neighbors[1].neighbors.push(cheese.neighbors[1]);
+
+var cloneGraph = function(graph) {
+  let cache = {};
+  let innerTraversal = function(node) {
+    //define the label
+    const label = node.label;
+
+    //if we have seen a similar value, check to see if it is the same node in memory
+    //exit traversal if we have seen that node
+    if (cache[label] === node) {
+      return;
+    }
+    //check to see if we have seen that label
+    if (!cache[label]) {
+      cache[label] = node;
+    }
+    //If there are no more connections for the given node, end traversal
+    if (!node.neighbors) {
+      return;
+    }
+    //itterate over all connections and call the traversal
+    for (var i = 0; i < node.neighbors.length; i++) {
+      //traverse over each child node
+      innerTraversal(node.neighbors[i]);
+    }
+  };
+  //traverse over the graph starting with the input node
+  innerTraversal(graph);
+  //make an obj to store copied nodes
+  let copy = {};
+  let nodeLabels = Object.keys(cache);
+  //iterate over nodes and create copies with out connections
+  nodeLabels.forEach(function(node) {
+    copy[node] = new UndirectedGraphNode(Number(node));
+  });
+  //iterate over each node's connections and map them to the coppied version's connections array
+  nodeLabels.forEach(function(node) {
+    cache[node].neighbors.forEach(function(connection) {
+      copy[node].neighbors.push(copy[connection.label]);
+    });
+  });
+  //return the copy of the input graph
+  return copy[graph.label];
+};
+
+console.log(cloneGraph(cheese));

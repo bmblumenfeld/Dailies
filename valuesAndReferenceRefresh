@@ -1,0 +1,64 @@
+Brushing up on the gaps:
+Scope: it is the part of the program where binding between a variable and a value is valid. 
+lexical scope: The local scope where variable lookup will succeed only within that scope or out to a greater scope, but never opposite. 
+keyword Let: specifies scope change by block including if and while blocks. 
+Sidetrack: What does object / function declaration mean in memory? 
+    Here is memory allocation lifecycle: 
+    1. Allocate the memory you need
+    2. Use the allocated memory (read, write)
+    3. Release the allocated memory when it is not needed anymore
+Garbage collection is a part of software that detects things stored in memory that is not being used anymore and then frees up that memory. 
+Execution Contexts: in-memory scope structures -- 
+    when a program runs it builds storage systems or holding variables and their values. -- execution contexts
+    lexical scope or just scope specifies a region of code, but does not specify that it is in-memory. 
+    Their rules govern which variables a program has access to at different points during execution 
+Function Execution: Since every execution of a function should work in isolation from the last, a new execution context (in-memory storage system)
+    is created. 
+    Another example of scope vs. execution conext: ^ above shows the difference. Lexical scope could have many in-memory execution contexts 
+        or none i.e lexical scope of function declaration vs. the function being run or not. 
+        Each time a function is run it has its own unique context. This mean that array literals that are defined in a function have 
+        different addresses in memory (space complexity) and are stored seperately. This mean variables and addresses do too. Different contexts.
+Scopes != Objects: Though in scopes there are key value pairs like in objects, they are not the same because there are lookup rules that are different! 
+        -You can only access these values given you follow certain rules to lexical scoping in JS. 
+        -THE BIGGEST DIFFERENCE IS FAILED PROPERTY LOOKUPS. PROTOTYPE DELEGATION VS GOING OUT TO THE CONTAINING SCOPE FOR EXECUTION CONTEXTS
+        -One can never reference a context. Store context in an array and do work on them... Those are only done with Objects!!!
+
+Variables vs. Values: These are just key value pairs. Here are good examples: 
+    var x = 'hello';
+    - I am declaring a variable or a label and assigning a value to the label in the same line. The variable x is stored in its unique
+      space in memory and the string value 'hello' is stored in its own unique space in memory. x is simply a pointer. 
+    var y = x;
+    - Here I have declared another pointer, but assigned it to another pointer (x) that points to 'hello'. Y does not point to x
+      it simply points to the value that x points to. It points to the same place in memory that x points to though. it points to 
+      'hello'. 
+      x = 'world'
+      - Thos only changes what x points to, being 'world', and has no impact on y. Y points to 'hello'. 
+    var arr = []; 
+    - This declares a variable arr which is stored in its unique place in memory and it is assigned to a chunck of freed up consecuative memory 
+      indicated by the start and end brace. At each location of concecuative memory is made to point to its own value. 
+      arr[0] = 'hello'
+      - here the interpreter will do a lookup on the value and see that it already exists in memory. arr[0] will point to the already 
+        existing 'hello' that y points to. arr[0] === y //true
+    var obj = {};
+    - here obj is stored in its unique place in memeory and it points to a chunk of memory freed up for its own (local) key - value pairing. 
+    obj.hello = 'world'
+    - here the key 'hello' already exists so it points to the 'hello' in memory which will reference the value 'world' which already exists
+      and at that place in memory will just point to the existing 'world'
+     - objects, unlike arrays, don't keep track of the order of memory locations in its 'chunk'. It just has a bunch of known free locations 
+       pointed to by a variable or a object literal and it just stores key-value pairs in that known space wherever! 
+    obj.population = 123
+    - here population is a string stored somewhere in memory that is pointed to from a location within the memory chunk reserved by obj. 
+      population is paired with a value 123 that is stored at a different place in memory, pointed to from a memory address in the free memory
+      from obj chunk. 
+    ONLY ARRAYS AND OBJECTS ARE MUTABLE! Because of this reference chain all other data types are immutable. 
+
+    CLOSURE: A closure is a functoin object that retains ongoing access to the variables of the context it was created in. Even after
+        the out function calls it was created within has returned. 
+
+    THIS: keyword that is bound to the focal object AT CALLTIME of a method! THIS behaves like a peramter to the function. It only gets 
+        assigned when the function is called. 
+    Call, Apply, Bind : Bind is a function method that binds the this perameter so that it is always the bound context even at run-time 
+        Call is a Function method that allows you to call a method within a specified context and set arguments. Apply just allows you to 
+        supply an array of many arguments to the funciton with set context. 
+    Hoisting: Variable delarations are hoisted to the top of their scope. Variables pointing at functions are hoisted above the rest. 
+        Function declarations like function dix() {console.log('dix')} will be hoisted above everything in scope it was defined. 

@@ -101,9 +101,9 @@ var numberToEnglish = function (num) {
 }
 
 var assert1 = function (expected, description) {
-	var actual = numberToEnglish('1');
-	console.log(description);
-	console.log(actual === expected);
+	var actual = numberToEnglish('502,062,000');
+	console.log(actual);
+	// console.log(actual === expected);
 }
 
 assert1('one', 'It should make the english equivilent of the number');
