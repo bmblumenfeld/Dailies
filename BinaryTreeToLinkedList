@@ -1,0 +1,47 @@
+var binaryTree = function(val) {
+  this.val = val;
+  this.left = null;
+  this.right = null;
+};
+
+var LinkedList = function() {
+  this.head = null;
+  this.tail = null;
+};
+var CreateNode = function(val) {
+  this.val = val;
+  this.next = null;
+};
+LinkedList.prototype.add = function(val) {
+  var node = new CreateNode(val);
+  if (!this.head) {
+    this.head = node;
+    this.tail = node;
+  } else {
+    this.tail.next = node;
+    this.tail = node;
+  }
+};
+
+LinkedList.prototype.removeHead = function() {
+  var removeVal = this.head.val;
+  this.head = this.head.next;
+  return removeVal;
+};
+
+var flatten = function(root) {
+  var flattened = new LinkedList();
+  var queue = [];
+  queue.unshift(root);
+  while (queue.length) {
+    var node = queue.pop();
+    flattened.add(node.val);
+    if (node.left) {
+      queue.unshift(node.left);
+    }
+    if (node.right) {
+      queue.unshift(node.right);
+    }
+  }
+  return flattened;
+};
