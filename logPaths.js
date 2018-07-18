@@ -22,9 +22,21 @@ Tree.prototype.logPath = function(root){
     }
     trav(root,[root.val]);
     console.log(paths)
-    // paths.forEach(function(path){
-    //     console.log(path,'\n')
-    // })
+}
+
+Tree.prototype.showTree = function(root){
+	var logTree = '';
+	bfs(root,[]);
+    function bfs(node,path){
+		node.children.forEach(function(child){
+			console.log(child.val)
+			path.push(child);
+		})
+		if(!path.length){
+			return 
+		}
+		bfs(path.unshift());
+	}
 }
 
 var bush = new Tree(5);
@@ -45,7 +57,8 @@ bush.children[0].children[1].addChild(5);
 bush.children[0].children[1].addChild(3);
 
 
-bush.logPath(bush);
+// bush.logPath(bush);
+bush.showTree(bush);
 
 //         5
 
